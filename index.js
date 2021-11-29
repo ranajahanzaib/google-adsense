@@ -1,3 +1,3 @@
-import lib from "./lib/";
+import googleAdSense from "./lib/";
 
-export default lib;
+export default googleAdSense;
