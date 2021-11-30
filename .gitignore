@@ -1,26 +1,40 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.vscode/
+.idea/
 
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
 
 # testing
 /coverage
+/.coverage
+/.nyc_output
 
-# production
+# Production
 /build
+/lib
 
-# misc
+# Firebase
+/.firebase
+firebase-debug.log
+firebase-debug.*.log
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log
+yarn.lock
+.npmrc
+
+# Misc
 .DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.idea
+*.iml
+*.tgz
+scripts/*.json
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-#Firebase
-/.firebase
