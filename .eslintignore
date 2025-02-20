@@ -1,6 +1,4 @@
-coverage
-dev
-lib
 node_modules
-standalone
-templates
+dist
+lib
+

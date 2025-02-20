@@ -1,40 +1,40 @@
-.vscode/
-.idea/
-
-# Dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-/.coverage
-/.nyc_output
-
-# Production
-/build
-/lib
-
-# Firebase
-/.firebase
-firebase-debug.log
-firebase-debug.*.log
-
+# Node.js dependencies
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-npm-debug.log
+pnpm-debug.log*
+package-lock.json
 yarn.lock
-.npmrc
+pnpm-lock.yaml
 
-# Misc
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Editor & IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs & temp files
+logs/
+*.log
+*.out
+*.err
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.idea
-*.iml
-*.tgz
-scripts/*.json
 
+# ESLint & Prettier cache
+.eslintcache
+.prettier/
+
+# TypeScript
+*.d.ts
+
+# Environment files (if applicable)
+.env
+.env.local
+.env.development
+.env.production
+.env.test

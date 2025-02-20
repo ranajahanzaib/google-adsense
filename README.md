@@ -1,38 +1,101 @@
-# Google AdSense Library (Unofficial)
+# Google AdSense
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](./LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](./CONTRIBUTING.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](./LICENSE) [![NPM Version](https://img.shields.io/npm/v/google-adsense.svg?style=flat-square)](https://www.npmjs.com/package/google-adsense) [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](./CONTRIBUTING.md)
 
-An unofficial Google AdSense library that makes it easy to use Google AdSense.
+Easily integrate Google AdSense ads into your React applications with this lightweight and user-friendly component. Supports both automatic and manual ad placements.
 
-# Get Started
+## 🚀 Getting Started
 
 ### Installation
 
-```sh
-npm install google-adsense
+```bash
+npm i google-adsense
 ```
 
-OR
+or
 
-```sh
+```bash
 yarn add google-adsense
 ```
 
-# Contributing
+### Usage
 
-We'd love to accept your patches and contributions to this project. There are just a few guidelines you need to follow.
+#### Auto Ads (Recommended)
 
-### [Code of Conduct](./CODE_OF_CONDUCT.md)
+Let Google's Auto Ads intelligently place ads on your page. This is the easiest way to get started.
 
-This project follows [Contributor Covenant](https://www.contributor-covenant.org/)
-as it's Code of Conduct, and we expect all project participants to adhere to it.
-Please read the [full guide](./CODE_OF_CONDUCT.md) so that you can understand
-what actions will not be tolerated.
+```jsx
+import React from "react";
+import AdSense from "google-adsense";
 
-### [Contributing Guide](./CONTRIBUTING.md)
+const App = () => {
+  return (
+    <div>
+      {/* ... your other content ... */}
+      <AdSense client="ca-pub-YOUR_PUBLISHER_ID" />
+      {/* ... your other content ... */}
+    </div>
+  );
+};
 
-Read our [contributing guide](./CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to project.
+export default App;
+```
 
-### [LICENSE](./LICENSE)
+#### Manual Ad Placement
 
-This project is licensed under the [MIT License](./LICENSE), meaning that you're free to modify, distribute, and / or use it for any commercial or private project.
+For more control, you can specify the exact placement of your ads using ad slots.
+
+```jsx
+import React from "react";
+import AdSense from "google-adsense";
+
+const App = () => {
+  return (
+    <div>
+      {/* ... your other content ... */}
+      <AdSense
+        client="ca-pub-YOUR_PUBLISHER_ID"
+        slot="YOUR_AD_SLOT_ID"
+        format="horizontal" // Optional: Ad format (e.g., "horizontal", "vertical", "square")
+        style={{ display: "block", width: "728px", height: "90px" }} // Optional: Custom styles
+        layout="in-page" // Optional: Layout for responsive ads
+        layoutKey="-dh-2j-49-" // Optional: Layout key for responsive ads
+        layoutDensity="-72d" // Optional: Layout density for responsive ads
+      />
+      {/* ... your other content ... */}
+    </div>
+  );
+};
+
+export default App;
+```
+
+**Important:** Replace `ca-pub-YOUR_PUBLISHER_ID` and `YOUR_AD_SLOT_ID` with your actual AdSense Publisher ID and Ad Slot ID, respectively. You can find these in your Google AdSense account.
+
+### Props
+
+| Prop            | Type   | Description                                                                               | Required |
+| --------------- | ------ | ----------------------------------------------------------------------------------------- | -------- |
+| `client`        | string | Your Google AdSense Publisher ID (e.g., "ca-pub-1234567890123456").                       | Yes      |
+| `slot`          | string | The Ad Slot ID (e.g., "1234567890"). Required for manual ad placement. Omit for Auto Ads. | No       |
+| `format`        | string | The ad format (e.g., "horizontal", "vertical", "square", "auto"). Defaults to "auto".     | No       |
+| `style`         | object | Inline styles for the ad container element. Defaults to `{ display: 'block' }`.           | No       |
+| `layout`        | string | Ad layout. For responsive ads. Consult AdSense documentation for valid values.            | No       |
+| `layoutKey`     | string | Ad layout key. For responsive ads. Consult AdSense documentation for valid values.        | No       |
+| `layoutDensity` | string | Ad layout density. For responsive ads. Consult AdSense documentation for valid values.    | No       |
+
+## 🤝 Contributing
+
+Contributions are welcome\! Kindly see the [Contributing Guide](./CONTRIBUTING.md) for details on how to contribute to this project.
+
+## 📝 License
+
+[MIT](./LICENSE)
+
+## 📚 Related
+
+- [Google AdSense Documentation](https://support.google.com/adsense?sjid=12746306205683557304-EU#topic=3373519)
+
+## 🐛 Issues
+
+Kindly report any bugs or issues on the [Issues page](https://github.com/ranajahanzaib/google-adsense/issues).
