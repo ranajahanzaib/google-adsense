@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
 
   publish-npm:
     needs: build
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
