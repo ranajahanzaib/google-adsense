@@ -1,1 +1,3 @@
-export { default as AdSense } from "./components/AdSense";
+import AdSense from "./components/AdSense";
+
+export default AdSense;

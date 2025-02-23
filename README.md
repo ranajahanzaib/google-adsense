@@ -26,7 +26,7 @@ Let Google's Auto Ads intelligently place ads on your page. This is the easiest 
 
 ```jsx
 import React from "react";
-import {AdSense} from "google-adsense";
+import AdSense from "google-adsense";
 
 const App = () => {
   return (
@@ -47,7 +47,7 @@ For more control, you can specify the exact placement of your ads using ad slots
 
 ```jsx
 import React from "react";
-import {AdSense} from "google-adsense";
+import AdSense from "google-adsense";
 
 const App = () => {
   return (
