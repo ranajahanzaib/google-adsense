@@ -4,6 +4,17 @@
 
 Easily integrate Google AdSense ads into your React applications with this lightweight and user-friendly component. Supports both automatic and manual ad placements.
 
+## ✨ Features
+
+- **Dynamic AdSense Script Loading:** Ensures the Google AdSense script is loaded only once per page, preventing conflicts and optimizing performance.
+- **Comprehensive Ad Type Support:** Seamlessly integrates both manual ad placements and Google's Auto Ads, offering flexibility for various AdSense configurations.
+- **Precise Ad Format Control (Manual Placements):** Provides the ability to specify ad formats (e.g., `horizontal`, `vertical`, `square`) for manual ad placements, allowing for fine-grained control over ad presentation.
+- **Responsive Ad Design Capabilities:** Supports responsive ad layouts through `data-ad-layout`, `data-ad-layout-key`, and `data-ad-layout-density` attributes, ensuring ads adapt smoothly to different screen sizes and devices.
+- **TypeScript-Ready:** Includes built-in TypeScript declarations, enabling a smooth and error-free development experience for TypeScript projects.
+- **Robust Script Loading Management:** Handles script loading with `onload` and `onerror` callbacks, and prevents duplicate script loading.
+- **Error Logging:** Provides console logging for script loading failures, aiding in debugging and troubleshooting.
+- **Correct adsbygoogle usage:** Correctly implements the `adsbygoogle.push({})` method, to ensure ads are displayed.
+
 ## 🚀 Getting Started
 
 ### Installation
