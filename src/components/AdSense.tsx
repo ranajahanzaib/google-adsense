@@ -81,10 +81,9 @@ const AdSense: React.FC<AdSenseProps> = ({
     const adElement = adRef.current.querySelector("ins");
     if (!adElement) return;
 
-    // MutationObserver to check ad fill status
+    // MutationObserver to check if the ins tag is empty.
     const observer = new MutationObserver(() => {
-      const adStatus = adElement.getAttribute("data-ad-status");
-      if (adStatus === "unfilled") {
+      if (adElement.innerHTML.trim() === "") {
         console.warn(
           `AdSense ad failed to load. Removing it. Client: ${client}, Slot: ${slot}`
         );
@@ -94,8 +93,7 @@ const AdSense: React.FC<AdSenseProps> = ({
     });
 
     observer.observe(adElement, {
-      attributes: true,
-      attributeFilter: ["data-ad-status"],
+      childList: true, // Observe changes to children
     });
 
     return () => observer.disconnect();
