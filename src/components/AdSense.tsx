@@ -72,6 +72,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   fullWidthResponsive = false, // Default to false
 }) => {
   const adRef = useRef<HTMLDivElement | null>(null);
+  const [showAd, setShowAd] = useState(true);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
@@ -116,17 +117,26 @@ const AdSense: React.FC<AdSenseProps> = ({
       window.adsbygoogle.push({});
     }
 
-    // MutationObserver to detect when the ad fails to load
+    // MutationObserver to check ad fill status
     const observer = new MutationObserver(() => {
-      if (adRef.current && adRef.current.childElementCount === 0) {
+      if (!adRef.current) return;
+      const adElement = adRef.current.querySelector("ins");
+      if (!adElement) return;
+
+      const adStatus = adElement.getAttribute("data-ad-status");
+      if (adStatus !== "filled") {
         console.warn(
-          `AdSense ad failed to load. Client: ${client}, Slot: ${slot}. Consider checking your setup.`
+          `AdSense ad failed to load. Removing it. Client: ${client}, Slot: ${slot}`
         );
+        setShowAd(false);
       }
     });
 
     if (adRef.current) {
-      observer.observe(adRef.current, { childList: true });
+      observer.observe(adRef.current, {
+        attributes: true,
+        attributeFilter: ["data-ad-status"],
+      });
     }
 
     return () => observer.disconnect();
@@ -138,9 +148,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   // If no 'slot' is provided, it's assumed to be Auto Ads.
   // Auto Ads handles the script inclusion and ad placement automatically,
   // so we return null to avoid rendering a redundant script tag.
-  if (!slot) {
-    return null;
-  }
+  if (!showAd || !slot) return null;
 
   // Manual ad placement: render the <ins> tag.
   return (
