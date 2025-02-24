@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Declare global interface for window.adsbygoogle to avoid TypeScript errors.
 declare global {
   interface Window {
-    adsbygoogle?: unknown[];
+    adsbygoogle?: Array<{}>;
   }
 }
 
@@ -13,18 +13,18 @@ declare global {
  */
 interface AdSenseProps {
   /**
-   * Your Google AdSense Publisher ID.  Required.
+   * Your Google AdSense Publisher ID. Required.
    * Example: "ca-pub-1234567890123456"
    */
   client: string;
   /**
-   * The ad slot ID.  Required for manual ad placement.
+   * The ad slot ID. Required for manual ad placement.
    * Leave undefined for Auto Ads.
    * Example: "1234567890"
    */
   slot?: string;
   /**
-   * The ad format.  Defaults to "auto".
+   * The ad format. Defaults to "auto".
    * Use this for manual ad placements.
    * Valid values depend on ad unit setup in AdSense.
    * Example: "horizontal", "vertical", "square"
@@ -39,7 +39,7 @@ interface AdSenseProps {
    */
   style?: React.CSSProperties;
   /**
-   * Ad layout.  For responsive ads.  Consult AdSense docs.
+   * Ad layout.  For responsive ads. Consult AdSense docs.
    */
   layout?: string;
   /**
@@ -51,7 +51,7 @@ interface AdSenseProps {
    */
   layoutDensity?: string;
   /**
-   * Full width responsive ads.  Defaults to false.
+   * Full width responsive ads. Defaults to false.
    */
   fullWidthResponsive?: boolean;
 }
@@ -71,6 +71,9 @@ const AdSense: React.FC<AdSenseProps> = ({
   layoutDensity,
   fullWidthResponsive = false, // Default to false
 }) => {
+  const adRef = useRef<HTMLDivElement | null>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
   useEffect(() => {
     const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
 
@@ -87,6 +90,7 @@ const AdSense: React.FC<AdSenseProps> = ({
        */
       script.onload = () => {
         console.log("AdSense script loaded.");
+        setScriptLoaded(true); // Set script loaded state
         // Push an empty object to adsbygoogle to trigger ad display for manual placements
         // *after* the script loads, ensuring adsbygoogle is defined.
         if (slot && window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
@@ -97,20 +101,39 @@ const AdSense: React.FC<AdSenseProps> = ({
       /**
        * Callback function to execute if the AdSense script fails to load.
        */
-      script.onerror = () =>
+      script.onerror = () => {
         console.error("Failed to load Google AdSense script.");
+        setScriptLoaded(false); // Set script loaded state to false
+      };
     } else if (
       slot &&
       window.adsbygoogle &&
-      Array.isArray(window.adsbygoogle)
+      Array.isArray(window.adsbygoogle) &&
+      scriptLoaded //Check if scriptLoaded is true
     ) {
       // If the script is already loaded (e.g., by another AdSense component),
       // and it's a manual placement, push an empty object to trigger ad display.
       window.adsbygoogle.push({});
     }
+
+    // MutationObserver to detect when the ad fails to load
+    const observer = new MutationObserver(() => {
+      if (adRef.current && adRef.current.childElementCount === 0) {
+        console.warn(
+          `AdSense ad failed to load. Client: ${client}, Slot: ${slot}. Consider checking your setup.`
+        );
+      }
+    });
+
+    if (adRef.current) {
+      observer.observe(adRef.current, { childList: true });
+    }
+
+    return () => observer.disconnect();
+
     // Add 'client' and 'slot' to the dependency array.  If either changes,
     // the effect should re-run to handle potential changes in ad configuration.
-  }, [client, slot]);
+  }, [client, slot, scriptLoaded]);
 
   // If no 'slot' is provided, it's assumed to be Auto Ads.
   // Auto Ads handles the script inclusion and ad placement automatically,
@@ -121,17 +144,19 @@ const AdSense: React.FC<AdSenseProps> = ({
 
   // Manual ad placement: render the <ins> tag.
   return (
-    <ins
-      className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
-      style={style} // Apply custom styles.
-      data-ad-client={client} // Your AdSense Publisher ID.
-      data-ad-slot={slot} // The Ad Slot ID.
-      data-ad-format={format} // The Ad Format.
-      data-ad-layout={layout} // Ad layout (for responsive ads).
-      data-ad-layout-key={layoutKey} // Ad layout key (for responsive ads).
-      data-ad-layout-density={layoutDensity} // Ad layout density (for responsive ads).
-      data-full-width-responsive={fullWidthResponsive ? "true" : "false"} // Full width responsive ads or not.
-    />
+    <div ref={adRef}>
+      <ins
+        className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
+        style={style} // Apply custom styles.
+        data-ad-client={client} // Your AdSense Publisher ID.
+        data-ad-slot={slot} // The Ad Slot ID.
+        data-ad-format={format} // The Ad Format.
+        data-ad-layout={layout} // Ad layout (for responsive ads).
+        data-ad-layout-key={layoutKey} // Ad layout key (for responsive ads).
+        data-ad-layout-density={layoutDensity} // Ad layout density (for responsive ads).
+        data-full-width-responsive={fullWidthResponsive ? "true" : "false"} // Full width responsive ads or not.
+      />
+    </div>
   );
 };
 
