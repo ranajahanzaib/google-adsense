@@ -106,14 +106,11 @@ const AdSense: React.FC<AdSenseProps> = ({
         console.error("Failed to load Google AdSense script.");
         setScriptLoaded(false); // Set script loaded state to false
       };
-    } else if (
-      slot &&
-      window.adsbygoogle &&
-      Array.isArray(window.adsbygoogle) &&
-      scriptLoaded //Check if scriptLoaded is true
-    ) {
-      // If the script is already loaded (e.g., by another AdSense component),
-      // and it's a manual placement, push an empty object to trigger ad display.
+    }
+
+    // If the script is already loaded (e.g., by another AdSense component),
+    // and it's a manual placement, push an empty object to trigger ad display.
+    if (slot && window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
       window.adsbygoogle.push({});
     }
 
