@@ -76,6 +76,32 @@ const AdSense: React.FC<AdSenseProps> = ({
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
+    if (!slot || !adRef.current) return;
+
+    const adElement = adRef.current.querySelector("ins");
+    if (!adElement) return;
+
+    // MutationObserver to check ad fill status
+    const observer = new MutationObserver(() => {
+      const adStatus = adElement.getAttribute("data-ad-status");
+      if (adStatus === "unfilled") {
+        console.warn(
+          `AdSense ad failed to load. Removing it. Client: ${client}, Slot: ${slot}`
+        );
+        setShowAd(false);
+        observer.disconnect(); // Stop observing once removed
+      }
+    });
+
+    observer.observe(adElement, {
+      attributes: true,
+      attributeFilter: ["data-ad-status"],
+    });
+
+    return () => observer.disconnect();
+  }, [client, slot, scriptLoaded]);
+
+  useEffect(() => {
     const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
 
     // Check if the AdSense script is already loaded to prevent duplicate loading.
@@ -106,41 +132,10 @@ const AdSense: React.FC<AdSenseProps> = ({
         console.error("Failed to load Google AdSense script.");
         setScriptLoaded(false); // Set script loaded state to false
       };
+    } else {
+      setScriptLoaded(true);
     }
-
-    // If the script is already loaded (e.g., by another AdSense component),
-    // and it's a manual placement, push an empty object to trigger ad display.
-    if (slot && window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-      window.adsbygoogle.push({});
-    }
-
-    // MutationObserver to check ad fill status
-    const observer = new MutationObserver(() => {
-      if (!adRef.current) return;
-      const adElement = adRef.current.querySelector("ins");
-      if (!adElement) return;
-
-      const adStatus = adElement.getAttribute("data-ad-status");
-      if (adStatus !== "filled") {
-        console.warn(
-          `AdSense ad failed to load. Removing it. Client: ${client}, Slot: ${slot}`
-        );
-        setShowAd(false);
-      }
-    });
-
-    if (adRef.current) {
-      observer.observe(adRef.current, {
-        attributes: true,
-        attributeFilter: ["data-ad-status"],
-      });
-    }
-
-    return () => observer.disconnect();
-
-    // Add 'client' and 'slot' to the dependency array.  If either changes,
-    // the effect should re-run to handle potential changes in ad configuration.
-  }, [client, slot, scriptLoaded]);
+  }, [client]);
 
   // If no 'slot' is provided, it's assumed to be Auto Ads.
   // Auto Ads handles the script inclusion and ad placement automatically,
