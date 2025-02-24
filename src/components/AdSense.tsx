@@ -61,8 +61,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   layoutDensity,
 }) => {
   useEffect(() => {
-    const scriptUrl =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
 
     // Check if the AdSense script is already loaded to prevent duplicate loading.
     if (!document.querySelector(`script[src="${scriptUrl}"]`)) {
