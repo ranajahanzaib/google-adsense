@@ -13,7 +13,6 @@ Easily integrate Google AdSense ads into your React applications with this light
 - **TypeScript-Ready:** Includes built-in TypeScript declarations, enabling a smooth and error-free development experience for TypeScript projects.
 - **Robust Script Loading Management:** Handles script loading with `onload` and `onerror` callbacks, and prevents duplicate script loading.
 - **Error Logging:** Provides console logging for script loading failures, aiding in debugging and troubleshooting.
-- **Correct adsbygoogle usage:** Correctly implements the `adsbygoogle.push({})` method, to ensure ads are displayed.
 
 ## 🚀 Getting Started
 
