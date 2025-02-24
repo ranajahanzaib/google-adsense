@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { useEffect } from "react";
 
 // Declare global interface for window.adsbygoogle to avoid TypeScript errors.
@@ -30,6 +31,10 @@ interface AdSenseProps {
    */
   format?: string;
   /**
+   * Class name for the ad container element.
+   */
+  className?: string;
+  /**
    * Inline styles for the ad container element.
    */
   style?: React.CSSProperties;
@@ -45,6 +50,10 @@ interface AdSenseProps {
    * Ad layout density. For responsive ads. Consult AdSense docs.
    */
   layoutDensity?: string;
+  /**
+   * Full width responsive ads.  Defaults to false.
+   */
+  fullWidthResponsive?: boolean;
 }
 
 /**
@@ -56,9 +65,11 @@ const AdSense: React.FC<AdSenseProps> = ({
   slot,
   format = "auto",
   style = { display: "block" }, // Default style for the ad container
+  className,
   layout,
   layoutKey,
   layoutDensity,
+  fullWidthResponsive = false, // Default to false
 }) => {
   useEffect(() => {
     const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
@@ -111,7 +122,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   // Manual ad placement: render the <ins> tag.
   return (
     <ins
-      className="adsbygoogle" // Required class name.
+      className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
       style={style} // Apply custom styles.
       data-ad-client={client} // Your AdSense Publisher ID.
       data-ad-slot={slot} // The Ad Slot ID.
@@ -119,6 +130,7 @@ const AdSense: React.FC<AdSenseProps> = ({
       data-ad-layout={layout} // Ad layout (for responsive ads).
       data-ad-layout-key={layoutKey} // Ad layout key (for responsive ads).
       data-ad-layout-density={layoutDensity} // Ad layout density (for responsive ads).
+      data-full-width-responsive={fullWidthResponsive ? "true" : "false"} // Full width responsive ads or not.
     />
   );
 };
