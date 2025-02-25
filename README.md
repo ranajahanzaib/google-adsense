@@ -89,7 +89,8 @@ export default App;
 | `client`              | string  | Your Google AdSense Publisher ID (e.g., "ca-pub-1234567890123456").                       | Yes      |
 | `slot`                | string  | The Ad Slot ID (e.g., "1234567890"). Required for manual ad placement. Omit for Auto Ads. | No       |
 | `format`              | string  | The ad format (e.g., "horizontal", "vertical", "square", "auto"). Defaults to "auto".     | No       |
-| `className`           | string  | Custom class name for the ad container.                                                   | No       |
+| `className`           | string  | Custom class name for the ad element <ins> tags.                                          | No       |
+| `containerClass`      | string  | Custom container class name for the ad container.                                         | No       |
 | `style`               | object  | Inline styles for the ad container element. Defaults to `{ display: 'block' }`.           | No       |
 | `layout`              | string  | Ad layout. For responsive ads. Consult AdSense documentation for valid values.            | No       |
 | `layoutKey`           | string  | Ad layout key. For responsive ads. Consult AdSense documentation for valid values.        | No       |
