@@ -93,9 +93,11 @@ const AdSense: React.FC<AdSenseProps> = ({
 
     // MutationObserver to check if the ad failed to load
     const observer = new MutationObserver(() => {
-      if (adElement.getAttribute("data-ad-status") === "unfilled") {
+      const adStatus = adElement.getAttribute("data-ad-status");
+
+      if (!adStatus || adStatus !== "filled") {
         console.warn(
-          `AdSense ad failed to load. Removing it. Client: ${client}, Slot: ${slot}`
+          `AdSense ad failed or is unfilled. Removing it. Client: ${client}, Slot: ${slot}`
         );
         setShowAd(false);
         observer.disconnect(); // Stop observing once removed
