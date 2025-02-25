@@ -31,9 +31,13 @@ interface AdSenseProps {
    */
   format?: string;
   /**
-   * Class name for the ad container element.
+   * Class name for the ad element (<ins></ins> tags).
    */
   className?: string;
+  /**
+   * Additional class names for the ad container element.
+   */
+  containerClass?: string;
   /**
    * Inline styles for the ad container element.
    */
@@ -74,6 +78,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   format = "auto",
   style = { display: "block", minHeight: "90px" }, // Ensuring minimum height to prevent zero-height errors
   className,
+  containerClass,
   layout,
   layoutKey,
   layoutDensity,
@@ -173,7 +178,7 @@ const AdSense: React.FC<AdSenseProps> = ({
 
   // Manual ad placement: render the <ins> tag.
   return (
-    <div ref={adRef} style={{ width, height }}>
+    <div ref={adRef} style={{ width, height }} className={containerClass}>
       <ins
         className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
         data-ad-client={client} // Your AdSense Publisher ID.
