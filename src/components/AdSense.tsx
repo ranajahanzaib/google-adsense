@@ -72,14 +72,14 @@ const AdSense: React.FC<AdSenseProps> = ({
   client,
   slot,
   format = "auto",
-  style = { display: "block" }, // Default style for the ad container
+  style = { display: "block", minHeight: "90px" }, // Ensuring minimum height to prevent zero-height errors
   className,
   layout,
   layoutKey,
   layoutDensity,
   fullWidthResponsive = false, // Default to false
-  width,
-  height,
+  width = "100%", // Ensure a valid width
+  height = "auto", // Ensure a valid height
 }) => {
   const adRef = useRef<HTMLDivElement | null>(null);
   const [showAd, setShowAd] = useState(true);
@@ -142,7 +142,9 @@ const AdSense: React.FC<AdSenseProps> = ({
         setScriptLoaded(false); // Set script loaded state to false
       };
     } else {
-      setScriptLoaded(true);
+      // Ensures that scriptLoaded reflects the actual state of adsbygoogle, preventing potential issues
+      // where scriptLoaded is set to true even if adsbygoogle is undefined.
+      setScriptLoaded(!!window.adsbygoogle);
     }
   }, [client]);
 
@@ -153,7 +155,7 @@ const AdSense: React.FC<AdSenseProps> = ({
 
   // Manual ad placement: render the <ins> tag.
   return (
-    <div ref={adRef}>
+    <div ref={adRef} style={{ width, height }}>
       <ins
         className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
         data-ad-client={client} // Your AdSense Publisher ID.
@@ -163,7 +165,7 @@ const AdSense: React.FC<AdSenseProps> = ({
         data-ad-layout-key={layoutKey} // Ad layout key (for responsive ads).
         data-ad-layout-density={layoutDensity} // Ad layout density (for responsive ads).
         data-full-width-responsive={fullWidthResponsive ? "true" : "false"} // Full width responsive ads or not.
-        style={{ ...style, width: width || "100%", height: height || "auto" }} // Inline styles.
+        style={{ ...style, width, height }} // Inline styles ensuring valid dimensions.
       />
     </div>
   );
