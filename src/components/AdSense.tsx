@@ -86,7 +86,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    if (!slot || !adRef.current) return;
+    if (!slot || !adRef.current || !scriptLoaded) return; // Ensure script is loaded before observing
 
     const adElement = adRef.current.querySelector("ins");
     if (!adElement) return;
@@ -99,15 +99,7 @@ const AdSense: React.FC<AdSenseProps> = ({
         console.warn(
           `AdSense ad failed or is unfilled. Removing it. Client: ${client}, Slot: ${slot}`
         );
-        setShowAd(false);
-
-        // Delay removal of element to allow React to process state update
-        setTimeout(() => {
-          if (adRef.current) {
-            adRef.current.remove();
-          }
-        }, 100);
-
+        setShowAd(false); // Trigger React to unmount the component
         observer.disconnect(); // Stop observing once removed
       }
     });
