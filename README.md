@@ -84,19 +84,23 @@ export default App;
 
 ### Props
 
-| Prop            | Type   | Description                                                                               | Required |
-| --------------- | ------ | ----------------------------------------------------------------------------------------- | -------- |
-| `client`        | string | Your Google AdSense Publisher ID (e.g., "ca-pub-1234567890123456").                       | Yes      |
-| `slot`          | string | The Ad Slot ID (e.g., "1234567890"). Required for manual ad placement. Omit for Auto Ads. | No       |
-| `format`        | string | The ad format (e.g., "horizontal", "vertical", "square", "auto"). Defaults to "auto".     | No       |
-| `style`         | object | Inline styles for the ad container element. Defaults to `{ display: 'block' }`.           | No       |
-| `layout`        | string | Ad layout. For responsive ads. Consult AdSense documentation for valid values.            | No       |
-| `layoutKey`     | string | Ad layout key. For responsive ads. Consult AdSense documentation for valid values.        | No       |
-| `layoutDensity` | string | Ad layout density. For responsive ads. Consult AdSense documentation for valid values.    | No       |
+| Prop                  | Type    | Description                                                                               | Required |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------- | -------- |
+| `client`              | string  | Your Google AdSense Publisher ID (e.g., "ca-pub-1234567890123456").                       | Yes      |
+| `slot`                | string  | The Ad Slot ID (e.g., "1234567890"). Required for manual ad placement. Omit for Auto Ads. | No       |
+| `format`              | string  | The ad format (e.g., "horizontal", "vertical", "square", "auto"). Defaults to "auto".     | No       |
+| `className`           | string  | Custom class name for the ad container.                                                   | No       |
+| `style`               | object  | Inline styles for the ad container element. Defaults to `{ display: 'block' }`.           | No       |
+| `layout`              | string  | Ad layout. For responsive ads. Consult AdSense documentation for valid values.            | No       |
+| `layoutKey`           | string  | Ad layout key. For responsive ads. Consult AdSense documentation for valid values.        | No       |
+| `layoutDensity`       | string  | Ad layout density. For responsive ads. Consult AdSense documentation for valid values.    | No       |
+| `fullWidthResponsive` | boolean | Enables full-width responsive ads. Defaults to `false`.                                   | No       |
+| `width`               | string  | Width of the ad container. Defaults to `100%`.                                            | No       |
+| `height`              | string  | Height of the ad container. Defaults to `auto`.                                           | No       |
 
 ## 🤝 Contributing
 
-Contributions are welcome\! Kindly see the [Contributing Guide](./CONTRIBUTING.md) for details on how to contribute to this project.
+Contributions are welcome! Kindly see the [Contributing Guide](./CONTRIBUTING.md) for details on how to contribute to this project.
 
 ## 📝 License
 

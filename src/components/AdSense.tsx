@@ -54,6 +54,14 @@ interface AdSenseProps {
    * Full width responsive ads. Defaults to false.
    */
   fullWidthResponsive?: boolean;
+  /**
+   * Width of the ad container. Defaults to "100%".
+   */
+  width?: string;
+  /**
+   * Height of the ad container. Defaults to "auto".
+   */
+  height?: string;
 }
 
 /**
@@ -70,6 +78,8 @@ const AdSense: React.FC<AdSenseProps> = ({
   layoutKey,
   layoutDensity,
   fullWidthResponsive = false, // Default to false
+  width,
+  height,
 }) => {
   const adRef = useRef<HTMLDivElement | null>(null);
   const [showAd, setShowAd] = useState(true);
@@ -146,7 +156,6 @@ const AdSense: React.FC<AdSenseProps> = ({
     <div ref={adRef}>
       <ins
         className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
-        style={style} // Apply custom styles.
         data-ad-client={client} // Your AdSense Publisher ID.
         data-ad-slot={slot} // The Ad Slot ID.
         data-ad-format={format} // The Ad Format.
@@ -154,6 +163,7 @@ const AdSense: React.FC<AdSenseProps> = ({
         data-ad-layout-key={layoutKey} // Ad layout key (for responsive ads).
         data-ad-layout-density={layoutDensity} // Ad layout density (for responsive ads).
         data-full-width-responsive={fullWidthResponsive ? "true" : "false"} // Full width responsive ads or not.
+        style={{ ...style, width: width || "100%", height: height || "auto" }} // Inline styles.
       />
     </div>
   );
