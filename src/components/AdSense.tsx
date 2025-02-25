@@ -86,7 +86,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    if (!slot || !adRef.current || !scriptLoaded) return; // Ensure script is loaded before observing
+    if (!slot || !adRef.current) return;
 
     const adElement = adRef.current.querySelector("ins");
     if (!adElement) return;
@@ -95,12 +95,18 @@ const AdSense: React.FC<AdSenseProps> = ({
     const observer = new MutationObserver(() => {
       const adStatus = adElement.getAttribute("data-ad-status");
 
-      if (!adStatus || adStatus !== "filled") {
+      if (adStatus === "unfilled") {
         console.warn(
-          `AdSense ad failed or is unfilled. Removing it. Client: ${client}, Slot: ${slot}`
+          "AdSense returned an unfilled ad. Rechecking in 3 seconds; if it remains unloaded, it will be removed..."
         );
-        setShowAd(false); // Trigger React to unmount the component
-        observer.disconnect(); // Stop observing once removed
+
+        setTimeout(() => {
+          if (adElement.getAttribute("data-ad-status") === "unfilled") {
+            console.warn("AdSense ad unfilled, removing.");
+            setShowAd(false);
+            observer.disconnect();
+          }
+        }, 3000); // Wait 3 seconds before removing
       }
     });
 
@@ -109,8 +115,18 @@ const AdSense: React.FC<AdSenseProps> = ({
       attributeFilter: ["data-ad-status"],
     });
 
+    // Push ad immediately if adsbygoogle exists
+    if (window.adsbygoogle) {
+      try {
+        window.adsbygoogle.push({});
+      } catch (e) {
+        console.error("AdSense push error: ", e);
+        setShowAd(false);
+      }
+    }
+
     return () => observer.disconnect();
-  }, [client, slot, scriptLoaded]);
+  }, [client, slot]);
 
   useEffect(() => {
     const scriptUrl = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
@@ -131,7 +147,7 @@ const AdSense: React.FC<AdSenseProps> = ({
         setScriptLoaded(true); // Set script loaded state
         // Push an empty object to adsbygoogle to trigger ad display for manual placements
         // *after* the script loads, ensuring adsbygoogle is defined.
-        if (slot && window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+        if (window.adsbygoogle) {
           window.adsbygoogle.push({});
         }
       };
@@ -148,7 +164,7 @@ const AdSense: React.FC<AdSenseProps> = ({
       // where scriptLoaded is set to true even if adsbygoogle is undefined.
       setScriptLoaded(!!window.adsbygoogle);
     }
-  }, [client]);
+  }, []);
 
   // If no 'slot' is provided, it's assumed to be Auto Ads.
   // Auto Ads handles the script inclusion and ad placement automatically,
