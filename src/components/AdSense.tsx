@@ -100,6 +100,14 @@ const AdSense: React.FC<AdSenseProps> = ({
           `AdSense ad failed or is unfilled. Removing it. Client: ${client}, Slot: ${slot}`
         );
         setShowAd(false);
+
+        // Delay removal of element to allow React to process state update
+        setTimeout(() => {
+          if (adRef.current) {
+            adRef.current.remove();
+          }
+        }, 100);
+
         observer.disconnect(); // Stop observing once removed
       }
     });
