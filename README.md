@@ -2,17 +2,32 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](./LICENSE) [![NPM Version](https://img.shields.io/npm/v/google-adsense.svg?style=flat-square)](https://www.npmjs.com/package/google-adsense) [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](./CONTRIBUTING.md)
 
-Easily integrate Google AdSense ads into your React applications with this lightweight and user-friendly component. Supports both automatic and manual ad placements.
+Add Google AdSense to your React project instantly. This simple component handles both auto and manual ad setup.
+
+```jsx
+import AdSense from "google-adsense";
+
+export const HomePage = () => (
+  <>
+    <AdSense client="ca-1234567890123456" /> {/* Auto Ad */}
+    {/* Manual Ad */}
+    <AdSense client="ca-1234567890123456" slot="1234567890" />
+  </>
+);
+```
 
 ## ✨ Features
 
-- **Dynamic AdSense Script Loading:** Ensures the Google AdSense script is loaded only once per page, preventing conflicts and optimizing performance.
-- **Comprehensive Ad Type Support:** Seamlessly integrates both manual ad placements and Google's Auto Ads, offering flexibility for various AdSense configurations.
-- **Precise Ad Format Control (Manual Placements):** Provides the ability to specify ad formats (e.g., `horizontal`, `vertical`, `square`) for manual ad placements, allowing for fine-grained control over ad presentation.
-- **Responsive Ad Design Capabilities:** Supports responsive ad layouts through `data-ad-layout`, `data-ad-layout-key`, and `data-ad-layout-density` attributes, ensuring ads adapt smoothly to different screen sizes and devices.
-- **TypeScript-Ready:** Includes built-in TypeScript declarations, enabling a smooth and error-free development experience for TypeScript projects.
-- **Robust Script Loading Management:** Handles script loading with `onload` and `onerror` callbacks, and prevents duplicate script loading.
-- **Error Logging:** Provides console logging for script loading failures, aiding in debugging and troubleshooting.
+|     | Feature                         | Description                                                                   |
+| --- | ------------------------------- | ----------------------------------------------------------------------------- |
+| ✅  | **Easy AdSense Integration**    | Seamlessly integrate Google AdSense into your React applications.             |
+| ✅  | **Manual/Auto Ads Support**     | Use specific ad slots or let AdSense automatically place ads.                 |
+| ✅  | **Responsive Ad Customization** | Control ad layouts, layout keys, and densities for optimal responsiveness.    |
+| ✅  | **Flexible Styling**            | Customize ad container and `ins` tag with class names and inline styles.      |
+| ✅  | **Error Handling**              | Detects and handles unfilled ads, preventing layout issues.                   |
+| ✅  | **Dynamic Script Loading**      | Efficiently loads the AdSense script only when needed, preventing duplicates. |
+| ✅  | **TypeScript Support**          | Fully typed for a smooth development experience.                              |
+| ✅  | **No Configs required**         | Simple and intuitive API, reducing setup time.                                |
 
 ## 🚀 Getting Started
 
@@ -30,7 +45,7 @@ yarn add google-adsense
 
 ### Usage
 
-#### Auto Ads (Recommended)
+#### Auto Ads
 
 Let Google's Auto Ads intelligently place ads on your page. This is the easiest way to get started.
 
@@ -41,9 +56,7 @@ import AdSense from "google-adsense";
 const App = () => {
   return (
     <div>
-      {/* ... your other content ... */}
-      <AdSense client="ca-pub-YOUR_PUBLISHER_ID" />
-      {/* ... your other content ... */}
+      <AdSense client="ca-pub-1234567890123456" />
     </div>
   );
 };
@@ -62,17 +75,7 @@ import AdSense from "google-adsense";
 const App = () => {
   return (
     <div>
-      {/* ... your other content ... */}
-      <AdSense
-        client="ca-pub-YOUR_PUBLISHER_ID"
-        slot="YOUR_AD_SLOT_ID"
-        format="horizontal" // Optional: Ad format (e.g., "horizontal", "vertical", "square")
-        style={{ display: "block", width: "728px", height: "90px" }} // Optional: Custom styles
-        layout="in-page" // Optional: Layout for responsive ads
-        layoutKey="-dh-2j-49-" // Optional: Layout key for responsive ads
-        layoutDensity="-72d" // Optional: Layout density for responsive ads
-      />
-      {/* ... your other content ... */}
+      <AdSense client="ca-pub-1234567890123456" slot="YOUR_AD_SLOT_ID" />
     </div>
   );
 };
@@ -80,7 +83,19 @@ const App = () => {
 export default App;
 ```
 
-**Important:** Replace `ca-pub-YOUR_PUBLISHER_ID` and `YOUR_AD_SLOT_ID` with your actual AdSense Publisher ID and Ad Slot ID, respectively. You can find these in your Google AdSense account.
+**Important:** Replace `ca-pub-1234567890123456` and `YOUR_AD_SLOT_ID` with your actual AdSense Publisher and Slot IDs found in your AdSense account.
+
+#### Simplified AdSense Integration
+
+This AdSense component provides a straightforward way to integrate Google AdSense into your web applications. It supports both automatic and manual ad placements. For automatic ads, provide your AdSense Publisher ID, and the component will leverage Google's Auto Ads. For manual placement, you can specify an ad slot ID and _optionally_ customize ad format, layout, and styling.
+
+#### Robust and Efficient
+
+The component dynamically loads the AdSense script to ensure optimal performance and prevent redundant inclusions. It also includes error handling with `MutationObserver` to detect and address unfilled ad slots, preventing layout issues. Responsive design is supported through options for controlling ad layouts, densities, and full-width responsiveness.
+
+#### Enhanced Developer Experience
+
+Built with TypeScript, this component provides type safety and clear interfaces. The intuitive API minimizes configuration overhead, allowing for quick AdSense integration. By encapsulating the complexities of AdSense, this component enables developers to focus on building their applications while seamlessly monetizing their content.
 
 ### Props
 
