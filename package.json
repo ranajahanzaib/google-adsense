@@ -1,7 +1,7 @@
 {
   "name": "google-adsense",
-  "version": "1.1.6",
-  "description": "React component for easily integrating Google AdSense.",
+  "version": "1.1.7",
+  "description": "Add Google AdSense to your React project instantly. This simple component handles both auto and manual ad setup.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -39,8 +39,5 @@
     "eslint-config-prettier": "^10.0.1",
     "prettier": "^3.5.1",
     "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1"
   }
 }

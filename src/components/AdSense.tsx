@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
 
 // Declare global interface for window.adsbygoogle to avoid TypeScript errors.
@@ -180,7 +179,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   return (
     <div ref={adRef} style={{ width, height }} className={containerClass}>
       <ins
-        className={clsx("adsbygoogle", className)} // Include required class name `adsbygoogle`.
+        className={`adsbygoogle ${className || ""}`} // Include required class name `adsbygoogle`.
         data-ad-client={client} // Your AdSense Publisher ID.
         data-ad-slot={slot} // The Ad Slot ID.
         data-ad-format={format} // The Ad Format.
